@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'MAVEN'   // Change to 'MAVEN' if that's your Jenkins config name
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/Dhrithii/devops.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building project...'
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'mvn test'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                echo 'Running application...'
+                
+                // BEST WAY (handles dependencies like Guava automatically)
+                sh 'mvn exec:java -Dexec.mainClass="com.example.App"'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
