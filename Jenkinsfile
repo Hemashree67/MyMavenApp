@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'MAVEN'   // Change to 'MAVEN' if that's your Jenkins config name
+        maven 'Maven'   // Change to 'MAVEN' if that's your Jenkins config name
     }
 
     stages {
